@@ -1,0 +1,27 @@
+services:
+  # app:
+  #   build: .
+  #   container_name: app
+  #   ports:
+  #     - '8888:8888'
+  #   environment:
+  #     - SERVER_URL=:8888
+  #     - POSTGRES_DSN=host=postgres user=app-default-user password=app-default-password dbname=app-db port=5432 sslmode=disable TimeZone=UTC
+  
+  postgres:
+    image: postgres:16.1
+    container_name: app-psql
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+  
+
+
+  # redis:
+  #   image: redis:alpine
+  #   container_name: go-redis
+  #   ports:
+  #     - "6379:6379"
