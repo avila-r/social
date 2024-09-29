@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	api_url = e2e.Env.Get("API_URL")
+	url = e2e.Env.Get("SERVER_URL")
 )
 
 func main() {
@@ -19,7 +19,7 @@ func main() {
 		return c.SendString("Hello, World!")
 	})
 
-	if err := app.Listen(api_url); err != nil {
+	if err := app.Listen(url); err != nil {
 		log.Fatal(err.Error())
 	}
 
