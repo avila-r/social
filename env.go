@@ -12,32 +12,32 @@ import (
 )
 
 type (
-	environment struct {
-		loaded    bool
-		test      bool
-		file_name string
+	env struct {
+		loaded bool
 	}
 )
 
 var (
-	Env = environment{}
+	Env = env{}
 )
 
-func (e *environment) Load() error {
-	var (
-		def  string
-		file string
-	)
-
-	if e.test {
-		def = ".env.test"
-	} else {
-		def = ".env"
+func (e *env) Load() error {
+	if e.loaded {
+		return nil
 	}
 
-	file = g.If(e.file_name != "", e.file_name, def)
+	def := filepath.Join(internal.RootPath, ".env")
 
-	path := filepath.Join(internal.RootPath, file)
+	// Loads default .env
+	if err := godotenv.Load(def); err != nil {
+		return err
+	}
+
+	profile := os.Getenv("PROFILE")
+
+	custom := ".env" + g.If(profile == "", profile, "."+profile)
+
+	path := filepath.Join(internal.RootPath, custom)
 
 	if err := godotenv.Load(path); err != nil {
 		return err
@@ -48,7 +48,7 @@ func (e *environment) Load() error {
 	return nil
 }
 
-func (e *environment) Get(key string) string {
+func (e *env) Get(key string) string {
 	var (
 		once sync.Once
 	)
@@ -62,22 +62,4 @@ func (e *environment) Get(key string) string {
 	}
 
 	return os.Getenv(key)
-}
-
-func (e *environment) SetFileName(n string) {
-	if n != "" {
-		e.file_name = n
-	}
-}
-
-func (e *environment) ActivateTestEnvironment() {
-	if f := !e.test; f {
-		e.test = true
-	}
-}
-
-func (e *environment) DeactivateTestEnvironment() {
-	if t := e.test; t {
-		e.test = false
-	}
 }
