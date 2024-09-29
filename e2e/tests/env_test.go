@@ -11,5 +11,5 @@ func Test_Properties(t *testing.T) {
 	// Assert that dotenv file is loaded before test
 	e2e.Env.Load()
 
-	_ = config.GetPostgresConfig()
+	_ = config.PostgresProperties
 }
