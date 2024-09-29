@@ -30,7 +30,7 @@ logs:
 	docker-compose -f $(DOCKER_COMPOSE_FILE) logs -f
 
 #
-# Tests
+# Unit tests
 #
 test_start:
 	@echo "Using test environment"
@@ -47,3 +47,18 @@ test_kill:
 test_logs:
 	@echo "Get logging for test environment"
 	@make -f Makefile.test.mk logs -s
+
+#
+# E2E tests
+#
+e2e_setup:
+	@echo "Starting e2e environment"
+	@make -f Makefile.e2e.mk setup -s
+
+e2e_test:
+	@echo "Starting e2e tests"
+	@make -f Makefile.e2e.mk test -s
+
+e2e_clean:
+	@echo "Cleaning e2e environment"
+	@make -f Makefile.e2e.mk clean -s
