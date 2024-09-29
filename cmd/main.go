@@ -22,6 +22,11 @@ func main() {
 	// Public
 	app.Get("/docs/*", swagger.HandlerDefault)
 
+	// Check api connection
+	app.Get("/verify", func(c *fiber.Ctx) error {
+		return c.SendStatus(200)
+	})
+
 	// Load the server URL from the application configuration
 	url := config.ApplicationConf.ServerURL
 
