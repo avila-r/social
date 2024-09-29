@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	url = "http://" + application.Env.Get("SERVER_URL")
+	url = "http://" + application.Env.Get("SERVER_URL") + "/verify"
 )
 
 func Test_App(t *testing.T) {
