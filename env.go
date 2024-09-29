@@ -7,7 +7,6 @@ import (
 	"sync"
 
 	"github.com/avila-r/g"
-	"github.com/avila-r/social/internal"
 	"github.com/joho/godotenv"
 )
 
@@ -26,7 +25,7 @@ func (e *env) Load() error {
 		return nil
 	}
 
-	def := filepath.Join(internal.RootPath, ".env")
+	def := filepath.Join(RootPath, ".env")
 
 	// Loads default .env
 	if err := godotenv.Load(def); err != nil {
@@ -37,7 +36,7 @@ func (e *env) Load() error {
 
 	custom := ".env" + g.If(profile == "", profile, "."+profile)
 
-	path := filepath.Join(internal.RootPath, custom)
+	path := filepath.Join(RootPath, custom)
 
 	if err := godotenv.Load(path); err != nil {
 		return err
