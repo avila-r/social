@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/avila-r/social/internal"
+	application "github.com/avila-r/social"
 	"github.com/joho/godotenv"
 )
 
@@ -20,7 +20,7 @@ var (
 )
 
 func (e *environment) Load() error {
-	path := filepath.Join(internal.E2ePath, ".env")
+	path := filepath.Join(application.E2ePath, ".env")
 
 	if err := godotenv.Load(path); err != nil {
 		return err
