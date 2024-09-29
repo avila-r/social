@@ -65,7 +65,9 @@ func (e *environment) Get(key string) string {
 }
 
 func (e *environment) SetFileName(n string) {
-
+	if n != "" {
+		e.file_name = n
+	}
 }
 
 func (e *environment) ActivateTestEnvironment() {
