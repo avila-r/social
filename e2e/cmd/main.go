@@ -4,12 +4,12 @@ import (
 	"log"
 	"time"
 
-	"github.com/avila-r/social/e2e"
+	application "github.com/avila-r/social"
 	"github.com/gofiber/fiber/v2"
 )
 
 var (
-	url = e2e.Env.Get("SERVER_URL")
+	url = application.Env.Get("SERVER_URL")
 )
 
 func main() {

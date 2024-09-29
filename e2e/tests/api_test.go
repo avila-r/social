@@ -4,12 +4,12 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/avila-r/social/e2e"
+	application "github.com/avila-r/social"
 	"github.com/stretchr/testify/assert"
 )
 
 var (
-	url = "http://" + e2e.Env.Get("API_URL")
+	url = "http://" + application.Env.Get("SERVER_URL")
 )
 
 func Test_App(t *testing.T) {
