@@ -36,6 +36,10 @@ func (e *env) Load() error {
 
 	custom := ".env" + g.If(profile == "", profile, "."+profile)
 
+	if profile == "e2e" {
+		custom = filepath.Join(E2ePath, ".env")
+	}
+
 	path := filepath.Join(RootPath, custom)
 
 	if err := godotenv.Load(path); err != nil {
