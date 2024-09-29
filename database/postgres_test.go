@@ -3,7 +3,6 @@ package database_test
 import (
 	"testing"
 
-	application "github.com/avila-r/social"
 	"github.com/avila-r/social/database"
 	"gorm.io/gorm"
 )
@@ -16,9 +15,6 @@ type User struct {
 
 // Test_PostgresConnection tests the connection to the PostgreSQL database and the ability to create a user.
 func Test_PostgresConnection(t *testing.T) {
-	// Asserts that application will load .env.test instead
-	application.Env.ActivateTestEnvironment()
-
 	// Retrieve the PostgreSQL database instance
 	//
 	// It's a good approach to start our PostgreSQL instance dedicated to unit tests.
