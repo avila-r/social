@@ -4,7 +4,7 @@ import (
 	"github.com/avila-r/xgo/pkg/crypt"
 )
 
-func (s *UserService) CanCreate(u User) (bool, error) {
+func (s *UserService) CanCreate(u *User) (bool, error) {
 	// Check if the email already exists
 	if _, err := s.FindByEmail(u.Email); err == nil {
 		// Err is nil. This means that email already
@@ -26,26 +26,22 @@ func (s *UserService) ListUsers() ([]User, error) {
 	return users, result.Error
 }
 
-func (s *UserService) CreateUser(user User) (*User, error) {
+func (s *UserService) CreateUser(user *User) error {
 	hash, err := crypt.EncryptPassword(user.Password)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	if valid, err := s.CanCreate(user); !valid {
-		return nil, err
+		return err
 	}
 
-	u := User{
-		DisplayName: user.DisplayName,
-		Email:       user.Email,
-		Password:    hash,
-	}
+	user.Password = hash
 
-	result := s.Db.Create(&u)
+	result := s.Db.Create(&user)
 
-	return &u, result.Error
+	return result.Error
 }
 
 // FindByEmail finds a user by their email address
