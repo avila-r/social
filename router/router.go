@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/avila-r/social/domain/auth"
 	"github.com/avila-r/social/domain/users"
 
 	"github.com/gofiber/fiber/v2"
@@ -16,6 +17,10 @@ var (
 		app.Get("/verify", func(c *fiber.Ctx) error {
 			return c.SendStatus(200)
 		})
+
+		auth.DefaultHandler.Route(
+			app.Group("/auth"),
+		)
 
 		api := app.Group("/api")
 		{
