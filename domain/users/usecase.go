@@ -6,8 +6,9 @@ import (
 
 func (s *UserService) CanCreate(u User) (bool, error) {
 	// Check if the email already exists
-	if _, err := s.FindByEmail(u.Email); err != nil {
-		// Email already exists, so it's not unique
+	if _, err := s.FindByEmail(u.Email); err == nil {
+		// Err is nil. This means that email already
+		// exists, so it's not unique
 		return false, ErrEmailNotUnique
 	}
 
