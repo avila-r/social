@@ -20,15 +20,15 @@ var (
 	}
 )
 
-func (s *XJwt) Login(request Login) (string, error) {
+func (s *XJwt) Login(request LoginRequest) (*LoginResponse, error) {
 	user, err := s.UserService.FindByEmail(request.Email)
 
 	if err != nil {
-		return "", ErrIncorrectLogin
+		return nil, ErrIncorrectLogin
 	}
 
 	if valid := crypt.PasswordMatchesHash(request.Password, user.Password); !valid {
-		return "", ErrIncorrectLogin
+		return nil, ErrIncorrectLogin
 	}
 
 	claims := jwt.MapClaims{
@@ -36,7 +36,18 @@ func (s *XJwt) Login(request Login) (string, error) {
 		"exp": time.Now().Add(time.Hour * 72).Unix(),
 	}
 
-	return s.Generate(claims)
+	token, err := s.Generate(claims)
+
+	if err != nil {
+		return nil, err
+	}
+
+	response := &LoginResponse{
+		Token:       token,
+		UserDetails: user,
+	}
+
+	return response, nil
 }
 
 func (s *XJwt) Generate(claims jwt.Claims) (string, error) {

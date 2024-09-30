@@ -14,7 +14,7 @@ var (
 		Password:    "password123",
 	}
 
-	login = auth.Login{
+	login = auth.LoginRequest{
 		Email:    "alice.test@example.com",
 		Password: "password123",
 	}
