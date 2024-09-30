@@ -10,17 +10,17 @@ type (
 	}
 )
 
-func NewHandler(s *UserService) *UserHandler {
-	return &UserHandler{
-		Service: s,
-	}
-}
-
 var (
 	DefaultHandler = &UserHandler{
 		Service: DefaultService,
 	}
 )
+
+func NewHandler(s *UserService) *UserHandler {
+	return &UserHandler{
+		Service: s,
+	}
+}
 
 func (h *UserHandler) Route(r fiber.Router) {
 	r.Get("/", h.HandleHome)
