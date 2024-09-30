@@ -13,13 +13,13 @@ start:
 # Command to pause (stop) the containers without removing them
 stop:
 	@echo "Stopping Docker Compose services..."
-	docker-compose -f $(TEST_DOCKER_COMPOSE_FILE) stop
+	docker-compose --env-file .env.test -f $(TEST_DOCKER_COMPOSE_FILE) stop
 	@echo "Services stopped!"
 
 # Command to completely remove containers, volumes, and images
 kill:
 	@echo "Removing containers, volumes, and images..."
-	docker-compose -f $(TEST_DOCKER_COMPOSE_FILE) down --volumes --rmi all
+	docker-compose --env-file .env.test -f $(TEST_DOCKER_COMPOSE_FILE) down --volumes --rmi all
 	@echo "All containers, volumes, and images removed!"
 
 # Command to show logs of services in real time
