@@ -13,11 +13,9 @@ type (
 )
 
 var (
-	DefaultService = func() *UserService {
-		return &UserService{
-			Db: database.Postgres,
-		}
-	}()
+	DefaultService = &UserService{
+		Db: database.Postgres,
+	}
 )
 
 func NewService(db *gorm.DB) *UserService {
