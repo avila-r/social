@@ -24,6 +24,8 @@ var (
 
 		api := app.Group("/api")
 		{
+			api.Use(auth.Middleware)
+
 			v1 := api.Group("/v1")
 			{
 				users.DefaultHandler.Route(
