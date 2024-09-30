@@ -16,12 +16,9 @@ var (
 			return ErrUnauthorized
 		},
 
-		KeyFunc: func(t *jwt.Token) (interface{}, error) {
-			if t.Method.Alg() != jwtware.HS256 {
-				return nil, ErrUnexpectedSigningMethod
-			}
-
-			return Secret, nil
+		SigningKey: jwtware.SigningKey{
+			JWTAlg: "HS256",
+			Key:    Secret,
 		},
 	})
 
