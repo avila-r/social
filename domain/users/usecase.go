@@ -2,6 +2,7 @@ package users
 
 import (
 	"github.com/avila-r/xgo/pkg/crypt"
+	"github.com/google/uuid"
 )
 
 func (s *UserService) CanCreate(u *User) (bool, error) {
@@ -39,7 +40,7 @@ func (s *UserService) CreateUser(user *User) error {
 
 	user.Password = hash
 
-	result := s.Db.Create(&user)
+	result := s.Db.Create(user)
 
 	return result.Error
 }
@@ -58,4 +59,50 @@ func (s *UserService) FindByEmail(email string) (*User, error) {
 	}
 
 	return &user, nil
+}
+
+func (s *UserService) FindByID(id uuid.UUID) (*User, error) {
+	var (
+		user User // Holds the user post
+	)
+
+	// Query the database for the first user with the given ID
+	result := s.Db.Where("id = ?", id).First(&user)
+
+	// Return the found user and any error
+	// that occurred during the query
+	return &user, result.Error
+}
+
+func (s *UserService) DeleteByID(id uuid.UUID) error {
+	// Find the user by ID
+	user, err := s.FindByID(id)
+
+	if err != nil {
+		// If an error occurred
+		// (e.g., user not found),
+		// return the error
+		return err
+	}
+
+	// Delete the found user from the database
+	result := s.Db.Delete(&user)
+
+	// Return any error that occurred during the deletion
+	return result.Error
+}
+
+func (s *UserService) ExistsById(id uuid.UUID) bool {
+	var (
+		user *User
+	)
+
+	// Search for user by ID in the database
+	result := s.Db.Where("id = ?", id).First(&user)
+
+	if result.Error != nil || user == nil {
+		return false
+	}
+
+	return true
 }
